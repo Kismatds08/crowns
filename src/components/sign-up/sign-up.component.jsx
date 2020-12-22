@@ -36,14 +36,11 @@ class SignUp extends React.Component{
            console.log(user)
 
            // Firestore Related
-           await createUserProfileDocument(user, displayName)
+           await createUserProfileDocument(user, {displayName})
 
         }catch(error){
             console.log(error)
         }
-
-
-
     }
 
     handleChange = event => {

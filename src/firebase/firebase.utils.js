@@ -22,7 +22,7 @@ export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
 // Creating a document inside firestor by capturing the user object from authentication library
-export const createUserProfileDocument = async (user, displayName) => {
+export const createUserProfileDocument = async (user, additionalData) => {
 
     // If not user object doesn't exist we are not going to create document
     if(!user) return 
@@ -35,14 +35,15 @@ export const createUserProfileDocument = async (user, displayName) => {
     const snapShot = await userRef.get()
     if(!snapShot.exists){
         // This is the details we have to store in firestore as a document
-        const {email} = user
+        const {email, displayName} = user
         const createdAt = new Date()
 
         try{
             await userRef.set({
                 displayName,
                 email,
-                createdAt
+                createdAt,
+                ...additionalData
             })
         }
         catch(error){
