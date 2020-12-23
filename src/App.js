@@ -3,19 +3,17 @@ import HomePage from "./pages/homepage/homepage.component";
 import {Switch, Route} from 'react-router-dom'
 import Header from "./components/header/header.component";
 
+import {auth, createUserProfileDocument} from './firebase/firebase.utils'
+
+import {connect} from 'react-redux'
+
 import './App.scss'
 import ShopPage from "./pages/shop/shop.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sing-up/sign-in-and-sign-up.component";
-import {auth, createUserProfileDocument} from './firebase/firebase.utils'
+import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends React.Component{
-  constructor(){
-    super()
-    this.state = {
-      currentUser: null
-    }
-  }
-
+ 
   componentDidMount(){
     //whenever an authentication state gets changed we are going to get those authenticaiton
     //details ad store it in our app
@@ -33,12 +31,9 @@ class App extends React.Component{
             }
           })
         })
-        console.log(this.state)
       }
 
-      //For Google Sign In method
-      this.setState({currentUser: user})
-      console.log(this.state)
+     
     })
   }
   //unmounting the component state
@@ -60,8 +55,39 @@ class App extends React.Component{
         ); 
       }
     }
+//Note"
+//1. Connect is HOC (High Order Component)
+//2 It takes two parameters 
+    //2.1 mapStateToProps => Subscribe the Data from the store 
+    //2.2 mapDispatchToProps => Dispatching Actions and Payload[Data] to the Reducer 
+    //    2.2.1 => Takes object as parameter with multiple actions can be dispatched
+    //          => user => dispatch(setCurrentUser(user))
 
-export default App;
+
+    const mapDispatchToProps = dispatch =>(
+      { //Key       : Call Back Function -> user +> dispatch(setCurrentUser(user))
+       setCurrentUser : user => dispatch(setCurrentUser(user))
+      }
+    )
+export default connect(null,mapDispatchToProps)(App);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // function App() {
 //   return (
