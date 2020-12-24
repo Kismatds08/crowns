@@ -1,11 +1,11 @@
 import './cart-item.styles.scss'
 
-const CartItem = () => (
+const CartItem = ({item: {imageUrl, price, name, quantity}}) => (
     <div className ='cart-item'>
-    <img />
+    <img src={imageUrl} alt='item'/>
     <div className= 'item-details'>
-        <span className='name'>Name</span>
-        <span className='price'>Quantity * Price</span>
+        <span className='name'>{name}</span>
+        <span className='price'>{quantity} X {price}</span>
     </div>
     </div>
 )
