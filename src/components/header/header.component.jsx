@@ -1,9 +1,12 @@
 import './header.styles.scss'
 
+import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 import {ReactComponent as Logo} from '../../assets/crwns.svg'
 import { auth } from '../../firebase/firebase.utils'
+import CartIcon from '../cart-icon/cart-icon.componet'
+import CartDropDown from '../cart-dropdown/cart-dropdown.component'
 
 // import { ReactComponent as Logo }
 // This is a new special syntax when importing SVG in React. 
@@ -15,7 +18,7 @@ import { auth } from '../../firebase/firebase.utils'
 // https://facebook.github.io/create-react-app/docs/adding-images-fonts-and-files
 
 
-const Header = ({currentUser}) => (
+const Header = ({currentUser, hidden}) => (
     <div className='header'>
         <Link className='logo-container' to='/'>
             <Logo className='logo' />
@@ -30,9 +33,17 @@ const Header = ({currentUser}) => (
             :
             <Link className='option' to='/signin'>SIGN IN</Link>
             }
+            <CartIcon/>
         </div> 
+        {hidden ? null: <CartDropDown/>}
     </div>
-   
 )
 
-export default Header
+const mapStateToProps = ({user: {currentUser},cart:{hidden}}) =>({
+    //currentUser: currentUser,
+    //hidden: hidden 
+    currentUser,
+    hidden
+})
+
+export default connect(mapStateToProps, null)(Header)
