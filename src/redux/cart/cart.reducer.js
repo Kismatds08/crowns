@@ -1,9 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable default-case */
+
 import CartActionTypes from './cart.types'
+import { addItemToCart } from './cart.utils'
 
 const INITIAL_STATE = {
     hidden : true,
+    cartItems: []
 }
 
 const cartReducer = (state = INITIAL_STATE, action) => {
@@ -12,6 +13,10 @@ const cartReducer = (state = INITIAL_STATE, action) => {
             return{
                 hidden: !state.hidden
             }
+            case CartActionTypes.ADD_ITEM:
+             return{
+                cartItems: addItemToCart(state.cartItems, action.payload)
+             }
             default: 
             return state
     }
