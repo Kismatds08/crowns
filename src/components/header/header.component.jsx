@@ -1,12 +1,17 @@
 import './header.styles.scss'
 
 import {connect} from 'react-redux'
+
 import {Link} from 'react-router-dom'
 
+import {auth} from '../../firebase/firebase.utils'
+
 import {ReactComponent as Logo} from '../../assets/crwns.svg'
-import { auth } from '../../firebase/firebase.utils'
-import CartIcon from '../cart-icon/cart-icon.componet'
+import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropDown from '../cart-dropdown/cart-dropdown.component'
+import { createStructuredSelector } from 'reselect'
+import { selectCurrentUser } from '../../redux/user/user.selectors'
+import { selectCartHidden } from '../../redux/cart/cart.selectors'
 
 // import { ReactComponent as Logo }
 // This is a new special syntax when importing SVG in React. 
@@ -28,22 +33,21 @@ const Header = ({currentUser, hidden}) => (
             <Link className='option' to='/contact'>CONTACT</Link>
 
             {
-                currentUser ?
-                <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>
-            :
-            <Link className='option' to='/signin'>SIGN IN</Link>
+                currentUser ? 
+                <div className='option' onClick={ () => auth.signOut() }>SIGN OUT</div>
+                :
+                <Link className='option' to='/signin'>SIGN IN</Link>
             }
-            <CartIcon/>
+            <CartIcon />
         </div> 
-        {hidden ? null: <CartDropDown/>}
+        {hidden ? null: <CartDropDown />}
     </div>
+   
 )
 
-const mapStateToProps = ({user: {currentUser},cart:{hidden}}) =>({
-    //currentUser: currentUser,
-    //hidden: hidden 
-    currentUser,
-    hidden
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 })
 
 export default connect(mapStateToProps, null)(Header)
