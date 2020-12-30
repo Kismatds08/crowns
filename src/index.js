@@ -6,13 +6,18 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App';
 
 import {Provider} from 'react-redux'
-import store from './redux/store';
+
+import {persistor, store} from './redux/store';
+import {PersistGate} from 'redux-persist/intergration/react'
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store ={store}>
     <BrowserRouter>
-      <App />
+    <PersistGate persistor = {persistor}>
+    <App />
+    </PersistGate>
     </BrowserRouter>
     </Provider>
   </React.StrictMode>,

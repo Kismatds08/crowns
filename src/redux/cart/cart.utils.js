@@ -32,14 +32,14 @@ export const removeItemFromCart = (cartItems, cartItemToRemove) => {
         cartItem => cartItem.id === cartItemToRemove.id
     )
 
-    // Removing whole cart item itself if at all the quantity reaches to 1
+    // Removing whole cart item itself if at all the quantity reaches to 1 (making it empty)
     if(existingCartItem.quantity === 1) {
         return cartItems.filter(
             cartItem => cartItem.id !== cartItemToRemove.id
             )
     }
 
-    // Else reducing the quantity by 1
+    // Else reducing the quantity by 1 
     return cartItems.map(
         cartItem => cartItem.id  === cartItemToRemove.id ?
         {...cartItem, quantity: cartItem.quantity - 1}
